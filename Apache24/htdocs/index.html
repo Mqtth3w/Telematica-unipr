@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <title>ConnectionGOAT</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/logo.png" />
+        <!-- Bootstrap Icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- SimpleLightbox plugin CSS-->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="js/index.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    </head>
+    <body id="page-top" body onload="setup()">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand">
+                    <img src="assets/goat.png" alt="login form" style="height: 80px; width: auto;" />
+                    DM Connection<sub>GOAT</sub>
+                </a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                        <li class="nav-item"><button id="login" class="btn nav-link" onclick="gotologin()"><span id="log1">Login</span></button></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="html/projects.html">Projects</a></li>
+                        <li class="nav-item"><button id="credits" class="btn nav-link" onclick="gotocredits()"><span id="cred">Credits</span></button></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header  class="masthead">
+            <div class="container px-4 px-lg-5 h-100">
+                <div class="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
+                    <div class="col-lg-8 align-self-end">
+                        <h1 class="text-white font-weight-bold">For The Best Connection Like a Real Goat</h1>
+                        <hr class="divider" />
+                    </div>
+                    <div class="col-lg-8 align-self-baseline">
+                        <p class="text-white-75 mb-5">
+                            ConnectionGOAT a open site where you can publish, 
+							search and rate papers, projects and scientific articles.
+                        </p>
+                        <a class="btn btn-primary btn-xl" href="#about">Find Out More</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- About-->
+        <section class="page-section bg-secondary" id="about">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="text-white mt-0">White Paper</h2>
+                        <hr class="divider divider-light" />
+                        <p class="text-white-75 mb-4">
+                            The purpose of the following white paper is to introduce ConnectionGOAT as a scientific article publishing channel. 
+							It is a database of scientific articles, guidelines, papers, best practices that others can use as a basis 
+							for future standards, certifications, laws, policies or as standards themselves. <br>
+							The aim is to allow anyone to publish their scientific work without too much difficulty. <br>
+							The features presented are focused on the fact that everyone can collaborate and enrich the scientific knowledge we have. 
+							The service is the result of a university project concerning telematics created by the working group 
+							Donato Bruno & Matteo Gianvenuti, future engineers working for the scientific community. 
+							The group intends to provide a platform for discussions and follow-up activities resulting from 
+							the events of the scientific community, experts and non-experts mainly in the technological field in any case 
+							any type of work can be published giving the community the task of evaluating the works published by expressing 
+							their positive or negative opinion. The site intends to give wide visibility to published scientific works. 
+							Ultimately it allows the following:<br>
+							• Ability to access the site having first registered.<br>
+							• Ability to log out of the site after an authenticated access, of course.<br>
+							• Possibility of registering on the site in order to be able to participate and give one's contribution 
+							to the scientific community, with a warm welcome email.<br>
+							• Ability to send an email to developers contributing to the development and improvement 
+							of the site by providing development suggestions.<br>
+							• Possibility of voting on articles and subsequently viewing the current scores, after authenticated access.<br>
+							• Possibility of inserting a new scientific work into the database by supplying the necessary data.<br>
+							• Ability to search for a scientific article in the database and then view it.<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer-->
+        <footer  class="bg-light py-5">
+            <div  class="container px-4 px-lg-5"><div class="small text-center text-muted">Copyright &copy; 2023 - Bruno Donato & Matteo Gianvenuti</div></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- SimpleLightbox plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    </body>
+</html>
