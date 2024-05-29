@@ -1,0 +1,8 @@
+[dn]
+CN=connectiongoat.it
+[req]
+distinguished_name = dn
+[EXT]
+subjectAltName=DNS:connectiongoat.it,IP:10.0.2.2
+keyUsage=digitalSignature
+extendedKeyUsage=serverAuth
