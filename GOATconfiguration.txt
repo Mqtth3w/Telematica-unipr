@@ -1,0 +1,142 @@
+#configurazione server HTTP/HTTPS (windows)
+posizionare la cartella Apache24 sotto C:\
+
+#creazione certificato auto firmato, solo se non esiste 
+(references https://www.youtube.com/watch?v=f9ZadlfSIDI)
+salvare  e creare il file config.txt nella cartella C:\Apache24\Apache24\conf\ssl (d'ora in poi chiamata ssl) 
+con il seguente contenuto:
+
+[dn]
+CN=connectiongoat.it
+[req]
+distinguished_name = dn
+[EXT]
+subjectAltName=DNS:connectiongoat.it,IP:10.0.2.2
+keyUsage=digitalSignature
+extendedKeyUsage=serverAuth
+
+#aprire il terminale nella cartella ssl e inserire il seguente comando
+
+openssl req -x509 -out localhost_http.crt -keyout localhost_http.key -newkey rsa:2048 -days 1024 -nodes -sha256 -subj "/C=IT/O=Dev-Certificate/CN=connectiongoat.it" -extensions EXT -config config.txt
+
+
+#aprire mmc 
+
+andare su file -> aggiungi/rimuovi ....
+selezionare certificati e cliccare aggiungi (da fare sia per "il computer locale" che per "il mio account") (avanti ... avanti fine)
+cliccare ok, cliccare -> certificati (computer locale) -> autorita di certificazione radice sicure (è la seconda)  
+tasto destro su certificati -> tutte le attività -> importa -> avanti -> scelgi 
+
+selezionare C:\Apache24\Apache24\conf\ssl\localhost_http.crt
+
+cliccare avanti fino fine e cliccare fine
+
+#aggiungere l'"FQDN" al file host
+aprire il blocco note o qualsiasi altro editor di testo con permessi di amministratore
+aprire il file c:\Windows\System32\Drivers\etc\hosts
+inserire nel file le seguenti righe e salvare
+
+#server HTTP/HTTPS progetto telematica
+127.0.0.1 connectiongoat.it
+
+#ora la connessione con il server verrà vista come sicura da chrome, altri browser possono richiedere una configurazione aggiuntiva
+
+#configurare il file di configurazione httpd.conf 
+#includere SSL e moduli necessari su Apache, configurare vistual host 443 (httpd-ssl.conf)
+
+#php, installare, aggiungere le seguenti righe a httpd.conf
+#Load php module /////////////////////////////////////////////////////
+AddHandler application/x-httpd-php .php
+AddType application/x-httpd-php .php .html
+LoadModule php_module "C:/php/php8apache2_4.dll"
+PHPIniDir "C:/php"
+
+# aggiungere le seguenti per bloccare l'esecuzione di php richiesto da url (eseguito solo se arriva richiesta da pagina html del server)
+
+#block php execution from url////////////////////////////////////////////////////////////////////
+<Directory "${SRVROOT}/htdocs/php">
+    Options Indexes FollowSymLinks 
+    AllowOverride None
+    Require all granted
+
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} \.php$ [NC]
+    RewriteCond %{HTTP_REFERER} !/html/ [NC]
+    RewriteRule ^ - [R=404,L]
+</Directory>
+
+
+#configurazione php.ini per utilizzare phpMyAdmin quindi MySQL
+aprire il file php.ini (C:/php/php.ini) e mettere come extension_dir
+la directory "C:\php\ext"
+
+#decommentare le extension necessarie per phpMyAdmin
+pdo_sqlite
+pdo_mysql
+mysqli
+mbstring
+curl
+gd
+
+#configurazione phpMyAdmin
+rinominare "C:/Apache24/Apache24/htdocs/phpMyAdmin/config.sample.inc.php"
+in "C:/Apache24/Apache24/htdocs/phpMyAdmin/config.inc.php"
+aggiungere al file le seguenti righe o aggiornale se già presenti
+
+$cfg['Servers'][$i]['auth_type'] = 'cookie';
+$cfg['Servers'][$i]['user'] = 'root';
+$cfg['Servers'][$i]['password'] = '';
+$cfg['Servers'][$i]['extension'] = 'mysqli';
+$cfg['Servers'][$i]['connect_type'] = 'tcp';
+$cfg['Lang'] = '';
+
+mettere come valore di $cfg['blowfish_secret'] una stringa qualsiasi
+
+mettere come host 127.0.0.1
+settare i seguenti valori
+
+$cfg['Servers'][$i]['controlhost'] = '127.0.0.1';
+$cfg['Servers'][$i]['controlport'] = '3306'; #non essenziale, 3306 è la porta di default
+$cfg['Servers'][$i]['controluser'] = 'pma';
+$cfg['Servers'][$i]['controlpass'] = '';
+$cfg['Servers'][$i]['AllowNoPassword'] = true;
+
+decommentare tutti i campi /* Storage database and tables */
+
+#avviare mysql di xampp, utilizzamo il database di MySQL di xampp
+
+######per avviare il server eseguire il seguente comando nel terminale
+C:\Apache24\Apache24\bin\httpd.exe
+
+
+###configurazione server SMTP, utilizziamo hMailServer
+
+#configurare PHP per SMTP
+in php.ini settare i seguenti valori
+ 
+SMTP = localhost
+smtp_port = 25
+mail.log = C:/php/logs/mail.log #non essenziale
+
+#estensioni php
+scaricare la classe PHPMailer (.zip) da https://github.com/PHPMailer/PHPMailer
+estrarre la cartella .zip sotto C:/php/PHPMailer
+
+#installare hMailServer versione 5.6.8
+avviare l'eseguibile appena scaricato 
+accettare la licenza e fare avanti finchè non si arriva alla selezione del database, selezionare database esterno, avanti
+avanti finchè non chiede di settare una password, per semplicita inserire 12345
+inserire la password quando richiesta, proseguire sempre avanti
+selezionare crea nuovo database, MySQL, inserire localhost come indirizzo del database
+inserire hmailserver come nome del database, root nome utente, nessuna password avanti
+
+prima di proseguire è necessario scaricare un file dll di supporto libmysql.dll
+(https://www.dll-files.com/libmysql.dll.html) versione 6.1.10.0 architettura 32
+scaricato lo zip prenddere il file libmysql.dll e posizionarlo sotto "C:\Program Files (x86)\hMailServer\Bin"
+proseguire l'installazione, cliccare fine, cliccare connect, inserire la password super sicura
+aggiungere il dominio connectiongoat.it
+aggiungere al dominio l'utente system con password 12345 (semplicità), ruolo server, salvare
+
+L'utente appena creato, sarà l'utente di sistema che invia le email di benvenuto quando gli utenti si registrano 
+e le email agli sviluppatori quando gli utenti contattano gli sviluppatori
